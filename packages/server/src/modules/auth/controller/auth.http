@@ -1,0 +1,18 @@
+POST http://localhost:3000/auth/loginByLocal
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+
+### xxx
+POST http://localhost:3000/auth/getUserInfo
+Content-Type: application/json
+Authorization: Bearer ee322a79-eae1-45cc-97f2-d6ed71dbd027
+
+{
+  "username": "admin",
+  "password": "admin"
+}

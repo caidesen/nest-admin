@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": [],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "cache": true,
+      "outputs": ["dist"]
+    },
+    "dev": {
+      "dependsOn": ["@nest-admin/api#build"],
+      "cache": true,
+      "persistent": true
+    }
+  }
+}
