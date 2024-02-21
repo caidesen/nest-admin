@@ -4,9 +4,11 @@ import _ from "lodash";
 import { AutoPath } from "@mikro-orm/core/typings";
 
 export function getPageableParams(input: PageableQueryInput) {
+  const pageSize = input.pageSize ?? 10;
+  const current = input.current ?? 1;
   return {
-    limit: input.pageSize,
-    offset: ((input.current || 1) - 1) * (input.pageSize || 10),
+    limit: pageSize,
+    offset: (current - 1) * pageSize,
   };
 }
 
