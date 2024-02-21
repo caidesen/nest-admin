@@ -1,18 +1,19 @@
 import { Module } from "@nestjs/common";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
-import { User } from "@/modules/auth/entity/user.entity";
-import { Account } from "@/modules/auth/entity/account.entity";
-import { Role } from "@/modules/auth/entity/role.entity";
-import { TokenService } from "@/modules/auth/service/token.service";
-import { UserService } from "@/modules/auth/service/user.service";
-import { AuthController } from "@/modules/auth/controller/auth.controller";
-import { Token } from "@/modules/auth/entity/token.entity";
-import { UserGroup } from "@/modules/auth/entity/user-group.entity";
+import { User } from "./entity/user.entity";
+import { Account } from "./entity/account.entity";
+import { Role } from "./entity/role.entity";
+import { Token } from "./entity/token.entity";
+import { UserGroup } from "./entity/user-group.entity";
+import { TokenService } from "./service/token.service";
+import { UserService } from "./service/user.service";
+import { AuthController } from "./controller/auth.controller";
+import { RoleController } from "./controller/role.controller";
 
 @Module({
   imports: [MikroOrmModule.forFeature([User, Account, Role, Token, UserGroup])],
   providers: [TokenService, UserService],
   exports: [TokenService],
-  controllers: [AuthController],
+  controllers: [AuthController, RoleController],
 })
 export class AuthModule {}

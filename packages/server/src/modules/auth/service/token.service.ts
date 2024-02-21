@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { EntityManager, ref, wrap } from "@mikro-orm/core";
-import { Token } from "@/modules/auth/entity/token.entity";
+import { EntityManager } from "@mikro-orm/core";
 import crypto from "node:crypto";
-import { User } from "@/modules/auth/entity/user.entity";
 import { FastifyRequest } from "fastify";
+import { Token } from "../entity/token.entity";
+import { User } from "../entity/user.entity";
 
 @Injectable()
 export class TokenService {
@@ -19,6 +19,7 @@ export class TokenService {
     await this.em.flush();
     return token;
   }
+
   /**
    * 通过 token 找到 user
    * @param code
@@ -41,6 +42,7 @@ export class TokenService {
       permissions: arr,
     };
   }
+
   /**
    * 清除过期的token
    */

@@ -1,15 +1,15 @@
 import { Controller } from "@nestjs/common";
 import { TypedBody, TypedRoute } from "@nestia/core";
+import Post = TypedRoute.Post;
+import { serialize } from "@mikro-orm/core";
+import { UserService } from "../service/user.service";
+import { AuthIgnore } from "../../../common/decorator/auth-ignore.decorator";
 import {
   GetUserInfoResult,
   LoginByLocalInput,
   LoginResult,
-} from "@/modules/auth/dto/auth.dto";
-import { UserService } from "@/modules/auth/service/user.service";
-import { AuthIgnore } from "@/common/decorator/auth-ignore.decorator";
-import { serialize } from "@mikro-orm/core";
-import Post = TypedRoute.Post;
-import { UserId } from "@/common/decorator/user-id.decorator";
+} from "../dto/auth.dto";
+import { UserId } from "../../../common/decorator/user-id.decorator";
 
 @Controller("/auth")
 export class AuthController {
@@ -17,7 +17,9 @@ export class AuthController {
 
   @AuthIgnore()
   @Post("/loginByLocal")
-  async loginByLocal(@TypedBody() input: LoginByLocalInput): Promise<LoginResult> {
+  async loginByLocal(
+    @TypedBody() input: LoginByLocalInput
+  ): Promise<LoginResult> {
     const token = await this.userService.loginUserByLocal(input);
     return serialize(token, { exclude: ["user"] });
   }

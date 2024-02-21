@@ -1,7 +1,7 @@
-import { BaseEntity } from "@/common/entity/common-field.entity";
-import { Role } from "@/modules/auth/entity/role.entity";
-import { User } from "@/modules/auth/entity/user.entity";
 import { Collection, Entity, ManyToMany, Property } from "@mikro-orm/core";
+import { BaseEntity } from "../../../common/entity/common-field.entity";
+import { Role } from "./role.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class UserGroup extends BaseEntity {

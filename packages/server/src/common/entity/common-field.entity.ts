@@ -10,7 +10,6 @@ import {
   DeleteDateProperty,
   UpdateDateProperty,
 } from "mikro-orm-plus";
-import { IdOnly } from "@/common/dto";
 
 @Entity({ abstract: true })
 export abstract class BaseEntity<Optional = never> extends MkBaseEntity {
@@ -27,9 +26,3 @@ export abstract class BaseEntity<Optional = never> extends MkBaseEntity {
   @DeleteDateProperty({})
   deletedAt?: Date;
 }
-
-export type ConstructorVal<T, K extends keyof T> = Partial<
-  Omit<T, K> & {
-    [P in K]?: IdOnly;
-  }
->;

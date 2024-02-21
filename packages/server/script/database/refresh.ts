@@ -1,10 +1,10 @@
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "@/app.module";
 import { EntityManager, MikroORM } from "@mikro-orm/core";
 import { glob } from "fast-glob";
 import { Seeder, SeedManager } from "@mikro-orm/seeder";
-import databaseConfig from "@/config/database.config";
 import { ConfigType } from "@nestjs/config";
+import { AppModule } from "../../src/app.module";
+import databaseConfig from "../../src/config/database.config";
 /**
  * 加载所有播种器
  */

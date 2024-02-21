@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
-import databaseConfig from "@/config/database.config";
 import { ConfigType } from "@nestjs/config";
 import { MikroOrmModuleOptions } from "@mikro-orm/nestjs/typings";
+import databaseConfig from "../../config/database.config";
 
 @Module({
   imports: [

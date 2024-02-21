@@ -7,9 +7,9 @@ import {
   Property,
   Ref,
 } from "@mikro-orm/core";
-import { BaseEntity } from "@/common/entity/common-field.entity";
 import { Account } from "./account.entity";
-import { UserGroup } from "@/modules/auth/entity/user-group.entity";
+import { BaseEntity } from "../../../common/entity/common-field.entity";
+import { UserGroup } from "./user-group.entity";
 
 @Entity()
 export class User extends BaseEntity {

@@ -1,12 +1,5 @@
-import {
-  Entity,
-  ManyToOne,
-  OneToOne,
-  PrimaryKey,
-  Property,
-  Ref,
-} from "@mikro-orm/core";
-import { User } from "@/modules/auth/entity/user.entity";
+import { Entity, ManyToOne, PrimaryKey, Property, Ref } from "@mikro-orm/core";
+import { User } from "./user.entity";
 
 @Entity()
 export class Token {

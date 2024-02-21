@@ -1,4 +1,5 @@
 import { tags } from "typia";
+import { RoleVO } from "./role.dto";
 
 export interface LoginByLocalInput {
   username: string & tags.MaxLength<20>;
@@ -15,13 +16,6 @@ export interface UserGroupVO {
   name: string;
   description: string;
   roles: RoleVO[];
-}
-
-export interface RoleVO {
-  id: string;
-  name: string;
-  description: string;
-  permissions: string[];
 }
 
 export interface GetUserInfoResult {

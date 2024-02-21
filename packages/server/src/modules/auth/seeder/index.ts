@@ -1,8 +1,8 @@
 import { Seeder } from "@mikro-orm/seeder";
 import Bcrypt from "bcrypt";
 import { Dictionary, EntityManager } from "@mikro-orm/core";
-import { User } from "@/modules/auth/entity/user.entity";
-import { UserGroup } from "@/modules/auth/entity/user-group.entity";
+import { User } from "../entity/user.entity";
+import { UserGroup } from "../entity/user-group.entity";
 
 class UserSeeder extends Seeder {
   async run(em: EntityManager, ctx: Dictionary) {

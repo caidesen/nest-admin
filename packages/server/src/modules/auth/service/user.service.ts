@@ -1,15 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { EntityManager, serialize } from "@mikro-orm/core";
 import bcrypt from "bcrypt";
-import { Account } from "@/modules/auth/entity/account.entity";
-import { InputException } from "@/common/exception";
-import { TokenService } from "@/modules/auth/service/token.service";
-import {
-  GetUserInfoResult,
-  LoginByLocalInput,
-} from "@/modules/auth/dto/auth.dto";
-import { User } from "@/modules/auth/entity/user.entity";
-import { Cacheable } from "nestjs-cacheable";
+import { TokenService } from "./token.service";
+import { Account } from "../entity/account.entity";
+import { InputException } from "../../../common/exception";
+import { GetUserInfoResult, LoginByLocalInput } from "../dto/auth.dto";
+import { User } from "../entity/user.entity";
 
 @Injectable()
 export class UserService {

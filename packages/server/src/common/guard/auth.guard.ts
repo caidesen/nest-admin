@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AuthIgnoreKey } from "@/common/decorator/auth-ignore.decorator";
 import { Reflector } from "@nestjs/core";
-import { TokenService } from "@/modules/auth/service/token.service";
+import { TokenService } from "../../modules/auth/service/token.service";
+import { AuthIgnoreKey } from "../decorator/auth-ignore.decorator";
 
 declare module "fastify" {
   interface FastifyRequest {
