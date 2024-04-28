@@ -1,4 +1,4 @@
-POST http://localhost:3000/auth/loginByLocal
+POST http://localhost:3000/api/auth/loginByLocal
 Content-Type: application/json
 
 {
@@ -8,9 +8,9 @@ Content-Type: application/json
 
 
 ### xxx
-POST http://localhost:3000/auth/getUserInfo
+POST http://localhost:3000/api/auth/getMyUserInfo
 Content-Type: application/json
-Authorization: Bearer ee322a79-eae1-45cc-97f2-d6ed71dbd027
+Authorization: Bearer 38cd15d6-c296-4271-95a5-e4769075c625
 
 {
   "username": "admin",

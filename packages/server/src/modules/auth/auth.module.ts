@@ -9,11 +9,18 @@ import { TokenService } from "./service/token.service";
 import { UserService } from "./service/user.service";
 import { AuthController } from "./controller/auth.controller";
 import { RoleController } from "./controller/role.controller";
+import { UserController } from "./controller/user.controller";
+import { UserGroupController } from "./controller/user-group.controller";
 
 @Module({
   imports: [MikroOrmModule.forFeature([User, Account, Role, Token, UserGroup])],
   providers: [TokenService, UserService],
   exports: [TokenService],
-  controllers: [AuthController, RoleController],
+  controllers: [
+    AuthController,
+    RoleController,
+    UserController,
+    UserGroupController,
+  ],
 })
 export class AuthModule {}

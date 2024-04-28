@@ -4,7 +4,6 @@ import { message } from "antd";
 export const api = apiLib.functional.api;
 
 export const connection: apiLib.IConnection = {
-  fetch: fetch,
   host: location.origin,
 };
 

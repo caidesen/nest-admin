@@ -1,6 +1,5 @@
-import { Controller } from "@nestjs/common";
+import { Controller, Logger } from "@nestjs/common";
 import { TypedBody, TypedRoute } from "@nestia/core";
-import Post = TypedRoute.Post;
 import { serialize } from "@mikro-orm/core";
 import { UserService } from "../service/user.service";
 import { AuthIgnore } from "../../../common/decorator/auth-ignore.decorator";
@@ -10,6 +9,7 @@ import {
   LoginResult,
 } from "../dto/auth.dto";
 import { UserId } from "../../../common/decorator/user-id.decorator";
+import Post = TypedRoute.Post;
 
 @Controller("/auth")
 export class AuthController {

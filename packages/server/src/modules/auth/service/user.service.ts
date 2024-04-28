@@ -6,6 +6,7 @@ import { Account } from "../entity/account.entity";
 import { InputException } from "../../../common/exception";
 import { GetUserInfoResult, LoginByLocalInput } from "../dto/auth.dto";
 import { User } from "../entity/user.entity";
+import { Cacheable } from "nestjs-cacheable";
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,14 @@ export class UserService {
     private readonly em: EntityManager,
     private readonly tokenService: TokenService
   ) {}
+
+  /**
+   * 密码哈希处理
+   * @param password
+   */
+  async passwordHash(password: string) {
+    return bcrypt.hash(password, 10);
+  }
 
   /**
    * 校验本地账户
@@ -36,10 +45,14 @@ export class UserService {
 
   /**
    * 获取用户信息，返回结果已经被序列化
-   * todo 这里要加缓存
    * @param userId
    */
+  @Cacheable({
+    key: (userId: string) => `getUserInfo(${userId})`,
+    ttl: 1000 * 60,
+  })
   async getUserInfo(userId: string): Promise<GetUserInfoResult> {
+    console.log("getUserInfo");
     const user = await this.em.findOne(
       User,
       { id: userId },

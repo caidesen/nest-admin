@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { TypedRoute } from "@nestia/core";
+import { TypedBody, TypedRoute } from "@nestia/core";
 import { EntityManager, serialize } from "@mikro-orm/core";
 import _ from "lodash";
 import {
@@ -22,7 +22,9 @@ export class RoleController {
   constructor(private readonly em: EntityManager) {}
 
   @Post("getRoleList")
-  async getRoleList(input: FindRoleInput): Promise<PaginationResult<RoleVO>> {
+  async getRoleList(
+    @TypedBody() input: FindRoleInput
+  ): Promise<PaginationResult<RoleVO>> {
     const [list, total] = await this.em.findAndCount(
       Role,
       queryCondBuilder<Role>().like("name", input.name).cond,
@@ -38,21 +40,21 @@ export class RoleController {
   }
 
   @Post("createRole")
-  async createRole(input: CreateRoleInput): Promise<IdOnly> {
+  async createRole(@TypedBody() input: CreateRoleInput): Promise<IdOnly> {
     const role = this.em.create(Role, input);
     await this.em.persistAndFlush(role);
     return _.pick(role, ["id"]);
   }
 
   @Post("updateRole")
-  async updateRole(input: UpdateRoleInput) {
+  async updateRole(@TypedBody() input: UpdateRoleInput) {
     const role = await this.em.findOneOrFail(Role, input.id);
     this.em.assign(role, input);
     await this.em.flush();
   }
 
   @Post("deleteRole")
-  async deleteRole(input: IdsOnly) {
+  async deleteRole(@TypedBody() input: IdsOnly) {
     for (const id of input.ids) {
       const role = this.em.getReference(Role, id);
       this.em.remove(role);
