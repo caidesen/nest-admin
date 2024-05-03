@@ -41,8 +41,7 @@ export function Component() {
         className="relative z-10"
         title="nest-admin"
         onFinish={async (val) => {
-          const res = await fetchWrap(api.auth.loginByLocal)(val);
-          setToken(res.token, new Date(res.expireAt), val.autoLogin);
+          await fetchWrap(api.auth.loginByLocal)(val);
           message.success("登录成功");
           setTimeout(() => {
             navigate("/", { replace: true });

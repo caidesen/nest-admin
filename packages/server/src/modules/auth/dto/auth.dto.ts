@@ -1,9 +1,8 @@
-import { tags } from "typia";
-import { UserGroupVO } from "./user-gourp.dto";
+import { RoleVO } from "./role.dto";
 
 export interface LoginByLocalInput {
-  username: string & tags.MaxLength<20>;
-  password: string & tags.MaxLength<20>;
+  username: string;
+  password: string;
 }
 
 export interface LoginResult {
@@ -14,5 +13,5 @@ export interface LoginResult {
 export interface GetUserInfoResult {
   id: string;
   nickname: string;
-  userGroups: UserGroupVO[];
+  roles: RoleVO[];
 }

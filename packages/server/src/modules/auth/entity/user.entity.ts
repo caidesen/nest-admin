@@ -9,7 +9,7 @@ import {
 } from "@mikro-orm/core";
 import { Account } from "./account.entity";
 import { BaseEntity } from "../../../common/entity/common-field.entity";
-import { UserGroup } from "./user-group.entity";
+import { Role } from "./role.entity";
 
 @Entity()
 export class User extends BaseEntity {
@@ -26,7 +26,7 @@ export class User extends BaseEntity {
   })
   account: Ref<Account>;
 
-  /** 关联的授权组 */
-  @ManyToMany(() => UserGroup, (group) => group.users)
-  userGroups = new Collection<UserGroup>(this);
+  /** 关联的角色 */
+  @ManyToMany(() => Role, (role) => role.users, { owner: true })
+  roles = new Collection<Role>(this);
 }

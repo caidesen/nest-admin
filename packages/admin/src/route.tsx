@@ -27,6 +27,22 @@ const bizPageRoutes: RouteType[] = [
     name: "首页",
     element: <div>欢迎</div>,
   },
+  {
+    path: "/system",
+    name: "系统设置",
+    children: [
+      {
+        path: "/system/role",
+        name: "角色设置",
+        Component: wrapper(() => import("@/pages/system/role")),
+      },
+      {
+        path: "/system/user",
+        name: "用户设置",
+        Component: wrapper(() => import("@/pages/system/users")),
+      },
+    ],
+  },
 ];
 
 export function routesFilterWithPermissions(

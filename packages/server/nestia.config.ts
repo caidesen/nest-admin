@@ -5,7 +5,6 @@ import { AppModule } from "./src/app.module";
 const NESTIA_CONFIG: INestiaConfig = {
   input: async () => {
     const app = await NestFactory.create(AppModule);
-    app.setGlobalPrefix("/api");
     return app;
   },
   output: "src/api",

@@ -1,29 +1,25 @@
-import { tags } from "typia";
 import { PageableQueryInput } from "../../../common/dto";
-import { UserGroupVO } from "./user-gourp.dto";
-
-export interface AccountVO {
-  username: string;
-  password: string;
-}
+import { RoleVO } from "./role.dto";
+import { tags } from "typia";
 
 export interface UserVO {
   id: string;
   nickname: string;
-  // account: AccountVO;
-  userGroups: UserGroupVO[];
+  account: {
+    username: string;
+  };
+  roles: RoleVO[];
 }
 
 export interface FindUserInput extends PageableQueryInput {
   nickname?: string;
-  userGroup?: string;
 }
 
 export interface CreateUserInput {
   nickname: string & tags.MaxLength<20>;
   username: string & tags.MaxLength<20>;
   password?: string & tags.MaxLength<20>;
-  userGroups?: string[];
+  roles?: { id: string }[];
 }
 
 export interface UpdateUserInput extends Partial<CreateUserInput> {

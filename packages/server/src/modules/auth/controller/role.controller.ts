@@ -34,7 +34,9 @@ export class RoleController {
       }
     );
     return {
-      list: serialize(list),
+      list: serialize(list, {
+        exclude: ["users"],
+      }),
       total,
     };
   }

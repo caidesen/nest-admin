@@ -15,7 +15,7 @@ export interface FindRoleInput extends PageableQueryInput {
 export interface CreateRoleInput {
   name: string & tags.MaxLength<20>;
   description: string & tags.MaxLength<20>;
-  permissions: string[] & tags.MaxLength<20>[];
+  permissions: string[];
 }
 
 export interface UpdateRoleInput extends CreateRoleInput {

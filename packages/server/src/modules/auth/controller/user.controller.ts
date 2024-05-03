@@ -15,8 +15,9 @@ import {
   queryCondBuilder,
 } from "../../../common/helpers/database";
 import { UserService } from "../service/user.service";
-import { UserGroup } from "../entity/user-group.entity";
+import { Role } from "../entity/role.entity";
 import Post = TypedRoute.Post;
+import _ from "lodash";
 
 @Controller("/user")
 export class UserController {
@@ -35,12 +36,12 @@ export class UserController {
       {
         ...getPageableParams(input),
         orderBy: defaultOrderBy,
-        populate: ["account", "userGroups"],
+        populate: ["account", "roles"],
       }
     );
     return {
       list: serialize(list, {
-        populate: ["account", "userGroups"],
+        populate: ["account", "roles"],
       }),
       total,
     };
@@ -57,7 +58,7 @@ export class UserController {
         username: input.username,
         password: passwordHash,
       },
-      userGroups: this.em.getReference(UserGroup, input.userGroups || []),
+      roles: this.em.getReference(Role, input.roles?.map((it) => it.id) || []),
     });
     await this.em.persistAndFlush(user);
     return { id: user.id };
@@ -65,7 +66,9 @@ export class UserController {
 
   @Post("updateUser")
   async updateUser(@TypedBody() input: UpdateUserInput) {
-    const user = await this.em.findOneOrFail(User, input.id);
+    const user = await this.em.findOneOrFail(User, input.id, {
+      populate: ["account", "roles"],
+    });
     this.em.assign(user, {
       nickname: input.nickname,
       account: {
@@ -74,8 +77,8 @@ export class UserController {
           ? await this.userService.passwordHash(input.password)
           : undefined,
       },
-      userGroups: input.userGroups
-        ? this.em.getReference(UserGroup, input.userGroups || [])
+      roles: input.roles
+        ? input.roles.map((it) => this.em.getReference(Role, it.id))
         : undefined,
     });
     await this.em.flush();

@@ -1,10 +1,8 @@
-import apiLib from "@nest-admin/api";
+import { functional as api, HttpError, IConnection } from "@nest-admin/api";
 import { message } from "antd";
 
-export const api = apiLib.functional.api;
-
-export const connection: apiLib.IConnection = {
-  host: location.origin,
+export const connection: IConnection = {
+  host: location.origin + "/api",
 };
 
 type Tail<T extends any[]> = T extends [infer _First, ...infer Rest]
@@ -21,12 +19,16 @@ export function fetchWrap<T extends (...args: any) => Promise<any>>(
     try {
       return await target(connection, ...input);
     } catch (e) {
-      if (e instanceof apiLib.HttpError) {
+      if (e instanceof HttpError) {
         const msg = JSON.parse(e.message).message;
         message.error(msg);
+      } else {
+        message.error("请求失败");
       }
       console.error(e);
       throw e;
     }
   } as DecoratedApiFunc<T>;
 }
+
+export { api };

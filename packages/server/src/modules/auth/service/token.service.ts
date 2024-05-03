@@ -31,12 +31,10 @@ export class TokenService {
     const token = await this.em.findOne(
       Token,
       { token: code },
-      { populate: ["user", "user.userGroups", "user.userGroups.roles"] }
+      { populate: ["user", "user.roles"] }
     );
     if (!token || token.expireAt < currentDate) return;
-    const arr = token.user.$.userGroups.$.map((it) =>
-      it.roles.$.map((it) => it.permissions).flat()
-    ).flat();
+    const arr = token.user.$.roles.$.map((it) => it.permissions).flat();
     return {
       userId: token.user.id,
       permissions: arr,

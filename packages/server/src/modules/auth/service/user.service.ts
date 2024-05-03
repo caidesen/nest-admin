@@ -57,10 +57,10 @@ export class UserService {
       User,
       { id: userId },
       {
-        populate: ["userGroups", "userGroups.roles"],
+        populate: ["roles"],
       }
     );
     if (!user) throw new InputException("用户不存在");
-    return serialize(user, { populate: ["userGroups", "userGroups.roles"] });
+    return serialize(user, { populate: ["roles"] });
   }
 }

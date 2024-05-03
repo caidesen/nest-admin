@@ -2,7 +2,7 @@ import { tags } from "typia";
 
 export interface PageableQueryInput {
   current?: number;
-  pageSize?: number & tags.Maximum<50>;
+  pageSize?: number & tags.Maximum<1000>;
 }
 
 export interface IdOnly {

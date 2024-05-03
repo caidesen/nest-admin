@@ -1,14 +1,11 @@
-import { Controller, Logger } from "@nestjs/common";
+import { Controller, Res } from "@nestjs/common";
 import { TypedBody, TypedRoute } from "@nestia/core";
-import { serialize } from "@mikro-orm/core";
 import { UserService } from "../service/user.service";
 import { AuthIgnore } from "../../../common/decorator/auth-ignore.decorator";
-import {
-  GetUserInfoResult,
-  LoginByLocalInput,
-  LoginResult,
-} from "../dto/auth.dto";
+import { GetUserInfoResult, LoginByLocalInput } from "../dto/auth.dto";
 import { UserId } from "../../../common/decorator/user-id.decorator";
+import { FastifyReply } from "fastify";
+import "@fastify/cookie";
 import Post = TypedRoute.Post;
 
 @Controller("/auth")
@@ -18,10 +15,14 @@ export class AuthController {
   @AuthIgnore()
   @Post("/loginByLocal")
   async loginByLocal(
+    @Res({ passthrough: true }) reply: FastifyReply,
     @TypedBody() input: LoginByLocalInput
-  ): Promise<LoginResult> {
+  ): Promise<void> {
     const token = await this.userService.loginUserByLocal(input);
-    return serialize(token, { exclude: ["user"] });
+    reply.setCookie("token", token.token, {
+      path: "/",
+      expires: token.expireAt,
+    });
   }
 
   @Post("getMyUserInfo")
