@@ -43,6 +43,33 @@ const bizPageRoutes: RouteType[] = [
       },
     ],
   },
+  {
+    path: "/purchase",
+    name: "采购",
+    children: [
+      {
+        path: "/purchase/device",
+        name: "设备管理",
+        Component: wrapper(() => import("@/pages/device")),
+      },
+      {
+        path: "/purchase/purchase-order",
+        name: "采购单管理",
+        Component: wrapper(() => import("@/pages/purchase-order")),
+      },
+    ],
+  },
+  {
+    path: "/work-order",
+    name: "质量",
+    children: [
+      {
+        path: "/work-order/work-order",
+        name: "检修管理",
+        Component: wrapper(() => import("@/pages/work-order")),
+      },
+    ],
+  },
 ];
 
 export function routesFilterWithPermissions(

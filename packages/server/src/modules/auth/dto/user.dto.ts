@@ -5,10 +5,14 @@ import { tags } from "typia";
 export interface UserVO {
   id: string;
   nickname: string;
-  account: {
+  account?: {
     username: string;
   };
-  roles: RoleVO[];
+  roles?: RoleVO[];
+}
+export interface SimpleUserVO {
+  id: string;
+  nickname: string;
 }
 
 export interface FindUserInput extends PageableQueryInput {
