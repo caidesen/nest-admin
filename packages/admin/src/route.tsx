@@ -70,6 +70,22 @@ const bizPageRoutes: RouteType[] = [
       },
     ],
   },
+  {
+    path: "/stock",
+    name: "库存",
+    children: [
+      {
+        path: "/stock/inbound",
+        name: "入库管理",
+        Component: wrapper(() => import("@/pages/inbound")),
+      },
+      {
+        path: "/stock/outbound",
+        name: "出库管理",
+        Component: wrapper(() => import("@/pages/outbound")),
+      },
+    ],
+  },
 ];
 
 export function routesFilterWithPermissions(

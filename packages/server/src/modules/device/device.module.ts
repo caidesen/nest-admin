@@ -12,9 +12,17 @@ import { PurchaseOrder } from "./entity/purchase-order.entity";
 import { WorkOrder } from "./entity/work-order.entity";
 import { PurchaseOrderController } from "./controller/purchase-order.controller";
 import { WorkOrderController } from "./controller/work-order.controller";
+import { InboundController } from "./controller/inbound.controller";
+import { OutboundController } from "./controller/outbound.controller";
 
 @Module({
-  controllers: [DeviceController, PurchaseOrderController, WorkOrderController],
+  controllers: [
+    DeviceController,
+    PurchaseOrderController,
+    WorkOrderController,
+    InboundController,
+    OutboundController,
+  ],
   imports: [
     MikroOrmModule.forFeature([
       Department,
