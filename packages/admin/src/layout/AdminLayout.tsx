@@ -83,7 +83,7 @@ export default function AdminLayout() {
       layout="mix"
       splitMenus={true}
       fixSiderbar={true}
-      title="nest-admin"
+      title="医疗设备管理系统"
       contentWidth="Fluid"
       avatarProps={{
         src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",

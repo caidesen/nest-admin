@@ -61,6 +61,10 @@ export default function PurchaseOrderPage() {
       <ProTable<ListItemType>
         columns={[
           {
+            title: "采购单编号",
+            dataIndex: "code",
+          },
+          {
             title: "采购设备",
             dataIndex: ["device", "name"],
           },
@@ -110,7 +114,9 @@ export default function PurchaseOrderPage() {
                     title: "删除采购单",
                     content: "确定要删除该采购单吗？",
                     onOk: async () => {
-                      await fetchWrap(api.purchase.$delete)({ ids: [] });
+                      await fetchWrap(api.purchase.$delete)({
+                        ids: [record.id],
+                      });
                       action?.reload();
                       message.success("删除成功");
                     },

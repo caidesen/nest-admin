@@ -66,7 +66,7 @@ export default function DevicePage() {
                     title: "删除设备",
                     content: "确定要删除该设备吗？",
                     onOk: async () => {
-                      await fetchWrap(api.device.$delete)({ ids: [] });
+                      await fetchWrap(api.device.$delete)({ ids: [record.id] });
                       action?.reload();
                       message.success("删除成功");
                     },

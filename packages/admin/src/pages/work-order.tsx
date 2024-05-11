@@ -45,7 +45,7 @@ export default function PurchaseOrderPage() {
             dataIndex: ["device", "name"],
           },
           {
-            title: "采购日期",
+            title: "检测日期",
             dataIndex: "testingDate",
             valueType: "date",
           },
@@ -91,7 +91,9 @@ export default function PurchaseOrderPage() {
                     title: "删除",
                     content: "确定要删除吗？",
                     onOk: async () => {
-                      await fetchWrap(api.work_order.$delete)({ ids: [] });
+                      await fetchWrap(api.work_order.$delete)({
+                        ids: [record.id],
+                      });
                       action?.reload();
                       message.success("删除成功");
                     },

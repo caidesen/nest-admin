@@ -2,45 +2,33 @@ import {
   ModalForm,
   PageContainer,
   ProFormDatePicker,
-  ProFormSelect,
+  ProFormMoney,
+  ProFormText,
   ProTable,
 } from "@ant-design/pro-components";
 import { api, fetchWrap } from "@/utils/connection";
 import { Button, message, Modal } from "antd";
 import React from "react";
 
-type ListItemType = api.outbound.list.Output[number];
-type FormType = api.outbound.create.Input;
+type ListItemType = api.fund_movement.list.Output[number];
+type FormType = api.fund_movement.create.Input;
 export default function PurchaseOrderPage() {
   const formContent = (
     <>
-      <ProFormSelect
-        name={["device", "id"]}
-        label="设备"
-        request={() =>
-          fetchWrap(api.device.list)().then((res) =>
-            res.map((item) => ({
-              label: item.name,
-              value: item.id,
-            }))
-          )
-        }
-        rules={[{ required: true, message: "请选择" }]}
+      <ProFormText
+        name={["purchaseOrder", "code"]}
+        label="采购单编号"
+        rules={[{ required: true, message: "请输入采购单编号" }]}
+      />
+      <ProFormMoney
+        name="amount"
+        label="金额"
+        rules={[{ required: true, message: "请输入金额" }]}
       />
       <ProFormDatePicker
         name="date"
-        label="出库时间"
-        rules={[{ required: true, message: "请选择出库时间" }]}
-      />
-      <ProFormSelect
-        name={["agentUser", "id"]}
-        label="经办人"
-        rules={[{ required: true, message: "请选择经办人" }]}
-        request={() =>
-          fetchWrap(api.user.getUserList)({}).then((res) =>
-            res.list.map((item) => ({ label: item.nickname, value: item.id }))
-          )
-        }
+        label="时间"
+        rules={[{ required: true, message: "请选择时间" }]}
       />
     </>
   );
@@ -49,21 +37,16 @@ export default function PurchaseOrderPage() {
       <ProTable<ListItemType>
         columns={[
           {
-            title: "设备编码",
-            dataIndex: ["device", "code"],
+            title: "采购单编号",
+            dataIndex: ["purchaseOrder", "code"],
           },
           {
-            title: "设备",
-            dataIndex: ["device", "name"],
+            title: "金额",
+            dataIndex: ["amount"],
           },
           {
-            title: "出库日期",
-            dataIndex: "date",
-            valueType: "date",
-          },
-          {
-            title: "经办人",
-            dataIndex: ["agentUser", "nickname"],
+            title: "时间",
+            dataIndex: ["date"],
           },
           {
             title: "操作",
@@ -77,7 +60,7 @@ export default function PurchaseOrderPage() {
                 width={600}
                 initialValues={{ ...record }}
                 onFinish={async (val) => {
-                  await fetchWrap(api.outbound.update)({
+                  await fetchWrap(api.fund_movement.update)({
                     ...val,
                     id: record.id,
                   });
@@ -95,7 +78,7 @@ export default function PurchaseOrderPage() {
                     title: "删除",
                     content: "确定要删除吗？",
                     onOk: async () => {
-                      await fetchWrap(api.outbound.$delete)({
+                      await fetchWrap(api.fund_movement.$delete)({
                         ids: [record.id],
                       });
                       action?.reload();
@@ -121,7 +104,7 @@ export default function PurchaseOrderPage() {
               maintenanceResult: "",
             }}
             onFinish={async (val) => {
-              await fetchWrap(api.outbound.create)(val);
+              await fetchWrap(api.fund_movement.create)(val);
               action?.reload();
               message.success("创建成功");
               return true;
@@ -131,7 +114,7 @@ export default function PurchaseOrderPage() {
           </ModalForm>,
         ]}
         request={async () => {
-          const res = await fetchWrap(api.outbound.list)();
+          const res = await fetchWrap(api.fund_movement.list)();
           return {
             data: res,
             total: res.length,

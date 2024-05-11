@@ -1,10 +1,13 @@
 import { BaseEntity } from "../../../common/entity/common-field.entity";
-import { Entity, ManyToOne, Property, Ref } from "@mikro-orm/core";
+import { Entity, ManyToOne, Property, Ref, t } from "@mikro-orm/core";
 import { Device } from "./device.entity";
 import { User } from "../../auth/entity/user.entity";
+import crypto from "node:crypto";
 
 @Entity()
-export class PurchaseOrder extends BaseEntity {
+export class PurchaseOrder extends BaseEntity<"code"> {
+  @Property({ type: t.uuid })
+  code: string = crypto.randomUUID();
   @ManyToOne(() => Device, { ref: true })
   device: Ref<Device>;
   @Property()

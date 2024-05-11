@@ -14,6 +14,7 @@ import { PurchaseOrderController } from "./controller/purchase-order.controller"
 import { WorkOrderController } from "./controller/work-order.controller";
 import { InboundController } from "./controller/inbound.controller";
 import { OutboundController } from "./controller/outbound.controller";
+import { FundMovementController } from "./controller/fund-movement.controller";
 
 @Module({
   controllers: [
@@ -22,6 +23,7 @@ import { OutboundController } from "./controller/outbound.controller";
     WorkOrderController,
     InboundController,
     OutboundController,
+    FundMovementController,
   ],
   imports: [
     MikroOrmModule.forFeature([

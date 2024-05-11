@@ -64,8 +64,13 @@ const bizPageRoutes: RouteType[] = [
     name: "质量",
     children: [
       {
+        path: "/work-order/fault",
+        name: "检测管理",
+        Component: wrapper(() => import("@/pages/ffff")),
+      },
+      {
         path: "/work-order/work-order",
-        name: "检修管理",
+        name: "维修管理",
         Component: wrapper(() => import("@/pages/work-order")),
       },
     ],
@@ -83,6 +88,28 @@ const bizPageRoutes: RouteType[] = [
         path: "/stock/outbound",
         name: "出库管理",
         Component: wrapper(() => import("@/pages/outbound")),
+      },
+    ],
+  },
+  {
+    path: "/fund-movement",
+    name: "资金",
+    children: [
+      {
+        path: "/fund-movement/fund-movement",
+        name: "资金流水",
+        Component: wrapper(() => import("@/pages/fund-movement")),
+      },
+    ],
+  },
+  {
+    path: "/statistics",
+    name: "统计",
+    children: [
+      {
+        path: "/statistics/index",
+        name: "可视化分析",
+        Component: wrapper(() => import("@/pages/statistics")),
       },
     ],
   },

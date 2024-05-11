@@ -88,7 +88,9 @@ export default function RolePage() {
                     title: "删除角色",
                     content: "确定要删除该角色吗？",
                     onOk: async () => {
-                      await fetchWrap(api.role.deleteRole)({ ids: [] });
+                      await fetchWrap(api.role.deleteRole)({
+                        ids: [record.id],
+                      });
                       action?.reload();
                       messageApi.success("删除成功");
                     },

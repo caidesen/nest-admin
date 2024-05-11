@@ -40,7 +40,7 @@ export default function UsersPage() {
             title: "角色",
             dataIndex: "roles",
             render: (text, record) =>
-              record.roles.map((role) => role.name).join(", "),
+              record.roles?.map((role) => role.name).join(", "),
           },
           {
             title: "操作",
@@ -54,8 +54,8 @@ export default function UsersPage() {
                 width={600}
                 initialValues={{
                   nickname: record.nickname,
-                  username: record.account.username,
-                  roles: record.roles.map((it) => ({
+                  username: record.account?.username,
+                  roles: record.roles?.map((it) => ({
                     ...it,
                     value: it.id,
                     label: it.name,
@@ -123,7 +123,9 @@ export default function UsersPage() {
                     title: "删除用户",
                     content: "确定要删除该用户吗？",
                     onOk: async () => {
-                      await fetchWrap(api.user.deleteUser)({ ids: [] });
+                      await fetchWrap(api.user.deleteUser)({
+                        ids: [record.id],
+                      });
                       action?.reload();
                       message.success("删除成功");
                     },

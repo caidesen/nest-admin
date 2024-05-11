@@ -39,7 +39,7 @@ export function Component() {
       />
       <LoginFormPage<FormType>
         className="relative z-10"
-        title="nest-admin"
+        title="医疗设备管理系统"
         onFinish={async (val) => {
           await fetchWrap(api.auth.loginByLocal)(val);
           message.success("登录成功");

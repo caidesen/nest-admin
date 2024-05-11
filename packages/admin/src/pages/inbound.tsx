@@ -95,7 +95,9 @@ export default function PurchaseOrderPage() {
                     title: "删除",
                     content: "确定要删除吗？",
                     onOk: async () => {
-                      await fetchWrap(api.inbound.$delete)({ ids: [] });
+                      await fetchWrap(api.inbound.$delete)({
+                        ids: [record.id],
+                      });
                       action?.reload();
                       message.success("删除成功");
                     },

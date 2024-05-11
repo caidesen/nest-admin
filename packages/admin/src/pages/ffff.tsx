@@ -2,15 +2,18 @@ import {
   ModalForm,
   PageContainer,
   ProFormDatePicker,
+  ProFormDateTimePicker,
+  ProFormDigit,
   ProFormSelect,
+  ProFormText,
   ProTable,
 } from "@ant-design/pro-components";
 import { api, fetchWrap } from "@/utils/connection";
 import { Button, message, Modal } from "antd";
 import React from "react";
 
-type ListItemType = api.outbound.list.Output[number];
-type FormType = api.outbound.create.Input;
+type ListItemType = api.work_order.list.Output[number];
+type FormType = api.work_order.create.Input;
 export default function PurchaseOrderPage() {
   const formContent = (
     <>
@@ -27,21 +30,8 @@ export default function PurchaseOrderPage() {
         }
         rules={[{ required: true, message: "请选择" }]}
       />
-      <ProFormDatePicker
-        name="date"
-        label="出库时间"
-        rules={[{ required: true, message: "请选择出库时间" }]}
-      />
-      <ProFormSelect
-        name={["agentUser", "id"]}
-        label="经办人"
-        rules={[{ required: true, message: "请选择经办人" }]}
-        request={() =>
-          fetchWrap(api.user.getUserList)({}).then((res) =>
-            res.list.map((item) => ({ label: item.nickname, value: item.id }))
-          )
-        }
-      />
+      <ProFormDateTimePicker name="testingDate" label="检测时间" />
+      <ProFormText name="faultDescription" label="故障描述" />
     </>
   );
   return (
@@ -49,21 +39,17 @@ export default function PurchaseOrderPage() {
       <ProTable<ListItemType>
         columns={[
           {
-            title: "设备编码",
-            dataIndex: ["device", "code"],
-          },
-          {
-            title: "设备",
+            title: "采购设备",
             dataIndex: ["device", "name"],
           },
           {
-            title: "出库日期",
-            dataIndex: "date",
+            title: "检测日期",
+            dataIndex: "testingDate",
             valueType: "date",
           },
           {
-            title: "经办人",
-            dataIndex: ["agentUser", "nickname"],
+            title: "故障描述",
+            dataIndex: ["faultDescription"],
           },
           {
             title: "操作",
@@ -77,7 +63,7 @@ export default function PurchaseOrderPage() {
                 width={600}
                 initialValues={{ ...record }}
                 onFinish={async (val) => {
-                  await fetchWrap(api.outbound.update)({
+                  await fetchWrap(api.work_order.update)({
                     ...val,
                     id: record.id,
                   });
@@ -95,7 +81,7 @@ export default function PurchaseOrderPage() {
                     title: "删除",
                     content: "确定要删除吗？",
                     onOk: async () => {
-                      await fetchWrap(api.outbound.$delete)({
+                      await fetchWrap(api.work_order.$delete)({
                         ids: [record.id],
                       });
                       action?.reload();
@@ -121,7 +107,7 @@ export default function PurchaseOrderPage() {
               maintenanceResult: "",
             }}
             onFinish={async (val) => {
-              await fetchWrap(api.outbound.create)(val);
+              await fetchWrap(api.work_order.create)(val);
               action?.reload();
               message.success("创建成功");
               return true;
@@ -131,7 +117,7 @@ export default function PurchaseOrderPage() {
           </ModalForm>,
         ]}
         request={async () => {
-          const res = await fetchWrap(api.outbound.list)();
+          const res = await fetchWrap(api.work_order.list)();
           return {
             data: res,
             total: res.length,

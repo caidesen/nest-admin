@@ -4,6 +4,7 @@ import { IdOnly } from "../../../common/dto";
 
 export interface PurchaseOrderVO {
   id: string;
+  code: string;
   device: DeviceVO;
   date: string;
   purchaseUser: SimpleUserVO;
