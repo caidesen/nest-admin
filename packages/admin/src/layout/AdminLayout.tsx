@@ -8,6 +8,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { useFilteredRoutes } from "@/route";
 import { Dropdown } from "antd";
 import { Suspense, useRef } from "react";
+import { api, fetchWrap } from "@/utils/connection";
 
 interface UpdatePasswordState {
   password: string;
@@ -76,7 +77,7 @@ export function UpdatePasswordModal() {
 
 export default function AdminLayout() {
   const location = useLocation();
-  const routes = useFilteredRoutes([]);
+  const routes = useFilteredRoutes();
   return (
     <ProLayout
       location={location}
@@ -104,7 +105,8 @@ export default function AdminLayout() {
                   {
                     key: "logout",
                     label: "退出登录",
-                    onClick: () => {
+                    onClick: async () => {
+                      await fetchWrap(api.auth.logout)();
                       window.location.replace("/logout");
                     },
                   },

@@ -6,7 +6,6 @@ import {
 import { message, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setToken } from "@/utils/token";
 import { api, fetchWrap } from "@/utils/connection";
 
 type LoginType = "phone" | "account";
@@ -44,7 +43,7 @@ export function Component() {
           await fetchWrap(api.auth.loginByLocal)(val);
           message.success("登录成功");
           setTimeout(() => {
-            navigate("/", { replace: true });
+            location.replace("/");
           }, 1000);
         }}
       >

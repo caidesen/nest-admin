@@ -4,6 +4,8 @@ import _ from "lodash";
 import React, { useMemo } from "react";
 import { PageLazyContainer } from "@/components/PageRouteWrapper";
 import AdminLayout from "@/layout/AdminLayout";
+import { api, fetchWrap } from "@/utils/connection";
+import { useQuery } from "@tanstack/react-query";
 
 export function wrapper(
   factory: () => Promise<{ default: React.ComponentType<any> }>
@@ -30,15 +32,18 @@ const bizPageRoutes: RouteType[] = [
   {
     path: "/system",
     name: "系统设置",
+    needPermissions: ["system"],
     children: [
       {
         path: "/system/role",
         name: "角色设置",
+        needPermissions: ["system"],
         Component: wrapper(() => import("@/pages/system/role")),
       },
       {
         path: "/system/user",
         name: "用户设置",
+        needPermissions: ["system"],
         Component: wrapper(() => import("@/pages/system/users")),
       },
     ],
@@ -46,15 +51,18 @@ const bizPageRoutes: RouteType[] = [
   {
     path: "/purchase",
     name: "采购",
+    needPermissions: ["purchase"],
     children: [
       {
         path: "/purchase/device",
         name: "设备管理",
+        needPermissions: ["purchase"],
         Component: wrapper(() => import("@/pages/device")),
       },
       {
         path: "/purchase/purchase-order",
         name: "采购单管理",
+        needPermissions: ["purchase"],
         Component: wrapper(() => import("@/pages/purchase-order")),
       },
     ],
@@ -62,15 +70,18 @@ const bizPageRoutes: RouteType[] = [
   {
     path: "/work-order",
     name: "质量",
+    needPermissions: ["work-order"],
     children: [
       {
         path: "/work-order/fault",
         name: "检测管理",
+        needPermissions: ["work-order"],
         Component: wrapper(() => import("@/pages/ffff")),
       },
       {
         path: "/work-order/work-order",
         name: "维修管理",
+        needPermissions: ["work-order"],
         Component: wrapper(() => import("@/pages/work-order")),
       },
     ],
@@ -78,15 +89,18 @@ const bizPageRoutes: RouteType[] = [
   {
     path: "/stock",
     name: "库存",
+    needPermissions: ["stock"],
     children: [
       {
         path: "/stock/inbound",
         name: "入库管理",
+        needPermissions: ["stock"],
         Component: wrapper(() => import("@/pages/inbound")),
       },
       {
         path: "/stock/outbound",
         name: "出库管理",
+        needPermissions: ["stock"],
         Component: wrapper(() => import("@/pages/outbound")),
       },
     ],
@@ -94,10 +108,12 @@ const bizPageRoutes: RouteType[] = [
   {
     path: "/fund-movement",
     name: "资金",
+    needPermissions: ["finance"],
     children: [
       {
         path: "/fund-movement/fund-movement",
         name: "资金流水",
+        needPermissions: ["finance"],
         Component: wrapper(() => import("@/pages/fund-movement")),
       },
     ],
@@ -124,9 +140,10 @@ export function routesFilterWithPermissions(
     if (route.children?.length) {
       route.children = routesFilterWithPermissions(route.children, permissions);
     }
-    if (!route.children || route.children.length) result.push(route);
+    if (route.children?.length) result.push(route);
+    else if (!route.needPermissions) result.push(route);
     else if (
-      route.needPermissions &&
+      permissions.includes("*") ||
       route.needPermissions.some(
         (permission) => permissions?.includes(permission)
       )
@@ -142,14 +159,26 @@ export function routesFilterWithPermissions(
   return result;
 }
 
-export function useFilteredRoutes(permissions: string[]) {
+export function useFilteredRoutes() {
+  const { data } = useQuery({
+    queryKey: ["myUserInfo"],
+    queryFn: () => {
+      if (location.pathname !== "/login")
+        return fetchWrap(api.auth.getMyUserInfo)();
+      return Promise.resolve({
+        roles: [],
+        nickname: "",
+        id: "",
+      } as api.auth.getMyUserInfo.Output);
+    },
+  });
   const filteredRoutes = useMemo(
     () =>
       routesFilterWithPermissions(
         _.cloneDeep(bizPageRoutes),
-        permissions || []
+        data?.roles?.flatMap((role) => role.permissions) || []
       ),
-    [permissions]
+    [data]
   );
   return [
     {

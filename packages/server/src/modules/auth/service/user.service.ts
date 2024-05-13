@@ -52,7 +52,6 @@ export class UserService {
     ttl: 1000 * 60,
   })
   async getUserInfo(userId: string): Promise<GetUserInfoResult> {
-    console.log("getUserInfo");
     const user = await this.em.findOne(
       User,
       { id: userId },

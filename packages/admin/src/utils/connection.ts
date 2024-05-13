@@ -20,6 +20,9 @@ export function fetchWrap<T extends (...args: any) => Promise<any>>(
       return await target(connection, ...input);
     } catch (e) {
       if (e instanceof HttpError) {
+        if (e.status === 401) {
+          location.replace("login");
+        }
         const msg = JSON.parse(e.message).message;
         message.error(msg);
       } else {

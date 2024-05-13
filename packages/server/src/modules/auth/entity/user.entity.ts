@@ -22,7 +22,6 @@ export class User extends BaseEntity {
     ref: true,
     hidden: true,
     owner: true,
-    cascade: [Cascade.REMOVE],
   })
   account: Ref<Account>;
 

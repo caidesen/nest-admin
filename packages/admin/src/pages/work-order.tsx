@@ -1,9 +1,7 @@
 import {
   ModalForm,
   PageContainer,
-  ProFormDatePicker,
   ProFormDateTimePicker,
-  ProFormDigit,
   ProFormSelect,
   ProFormText,
   ProTable,
@@ -117,7 +115,15 @@ export default function PurchaseOrderPage() {
               maintenanceResult: "",
             }}
             onFinish={async (val) => {
-              await fetchWrap(api.work_order.create)(val);
+              await fetchWrap(api.work_order.create)(
+                Object.assign(
+                  {
+                    faultDescription: "",
+                    maintenanceResult: "",
+                  },
+                  val
+                )
+              );
               action?.reload();
               message.success("创建成功");
               return true;

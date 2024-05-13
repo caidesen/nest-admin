@@ -66,21 +66,23 @@ export class UserController {
 
   @Post("updateUser")
   async updateUser(@TypedBody() input: UpdateUserInput) {
-    const user = await this.em.findOneOrFail(User, input.id, {
+    const user = await this.em.findOne(User, input.id, {
       populate: ["account", "roles"],
     });
+    if (!user) return;
+    console.log(user.account.$.id);
     this.em.assign(user, {
       nickname: input.nickname,
-      account: {
-        username: input.username,
-        password: input.password
-          ? await this.userService.passwordHash(input.password)
-          : undefined,
-      },
       roles: input.roles
         ? input.roles.map((it) => this.em.getReference(Role, it.id))
         : undefined,
     });
+    if (input.username) user.account.$.username = input.username;
+    if (input.password)
+      user.account.$.password = await this.userService.passwordHash(
+        input.password
+      );
+    console.log(user.account.$.id);
     await this.em.flush();
   }
 

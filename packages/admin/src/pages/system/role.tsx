@@ -13,8 +13,24 @@ import { TreeTransfer } from "@/components/ui/tree-transfer/tree-transfer";
 type ListItemType = Awaited<ReturnType<typeof api.role.getRoleList>>["list"][0];
 const permissions: TreeDataNode[] = [
   {
-    title: "账号管理",
-    key: "sys:user",
+    title: "系统设置",
+    key: "system",
+  },
+  {
+    title: "采购管理",
+    key: "purchase",
+  },
+  {
+    title: "质量管理",
+    key: "work-order",
+  },
+  {
+    title: "库存管理",
+    key: "stock",
+  },
+  {
+    title: "资金管理",
+    key: "finance",
   },
 ];
 type FormType = {
@@ -77,6 +93,7 @@ export default function RolePage() {
                   });
                   action?.reload();
                   messageApi.success("更新成功");
+                  return true;
                 }}
               >
                 {formContent}
@@ -108,6 +125,9 @@ export default function RolePage() {
             title="创建角色"
             trigger={<Button type="primary">创建</Button>}
             width={600}
+            initialValues={{
+              permissions: [],
+            }}
             onFinish={async (val) => {
               await fetchWrap(api.role.createRole)(val);
               action?.reload();

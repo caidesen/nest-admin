@@ -25,6 +25,12 @@ export class AuthController {
     });
   }
 
+  @AuthIgnore()
+  @Post("/logout")
+  logout(@Res({ passthrough: true }) reply: FastifyReply) {
+    reply.clearCookie("token");
+  }
+
   @Post("getMyUserInfo")
   async getMyUserInfo(@UserId() userId: string): Promise<GetUserInfoResult> {
     return this.userService.getUserInfo(userId);
